@@ -100,6 +100,3 @@ info.setScore(0)
 SpawnPlayer()
 Coin()
 SpawnEnemy()
-forever(function () {
-    Guard.setVelocity(-5, 0)
-})
