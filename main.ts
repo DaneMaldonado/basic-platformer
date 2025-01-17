@@ -143,10 +143,11 @@ scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile`, function (sprite, lo
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     if (Hero.vy == 0) {
         Hero.setVelocity(0, -130)
+        number_of_jumps += 1
     }
 })
 function SpawnPlayer () {
-    for (let value of tiles.getTilesByType(assets.tile`myTile1`)) {
+    for (let value2 of tiles.getTilesByType(assets.tile`myTile1`)) {
         Hero = sprites.create(img`
             . . . . . . 5 . 5 . . . . . . . 
             . . . . . f 5 5 5 f f . . . . . 
@@ -166,8 +167,8 @@ function SpawnPlayer () {
             . . . . . f f . . f f . . . . . 
             `, SpriteKind.Player)
         Hero.scale = 1.15
-        tiles.placeOnTile(Hero, value)
-        tiles.setTileAt(value, assets.tile`transparency16`)
+        tiles.placeOnTile(Hero, value2)
+        tiles.setTileAt(value2, assets.tile`transparency16`)
         scene.cameraFollowSprite(Hero)
         controller.moveSprite(Hero, 100, 0)
         Hero.ay = 160
@@ -292,7 +293,7 @@ controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
     )
 })
 function Coin () {
-    for (let value of tiles.getTilesByType(assets.tile`myTile3`)) {
+    for (let value3 of tiles.getTilesByType(assets.tile`myTile3`)) {
         Coins = sprites.create(img`
             . . b b b b . . 
             . b 5 5 5 5 b . 
@@ -303,8 +304,8 @@ function Coin () {
             . f d d d d f . 
             . . f f f f . . 
             `, SpriteKind.Food)
-        tiles.placeOnTile(Coins, value)
-        tiles.setTileAt(value, assets.tile`transparency16`)
+        tiles.placeOnTile(Coins, value3)
+        tiles.setTileAt(value3, assets.tile`transparency16`)
         Coins.scale = 1.4
         animation.runImageAnimation(
         Coins,
@@ -377,10 +378,9 @@ scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile2`, function (sprite, l
     }
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Food, function (sprite, otherSprite) {
-    music.play(music.createSoundEffect(WaveShape.Square, 400, 600, 255, 0, 100, SoundExpressionEffect.None, InterpolationCurve.Linear), music.PlaybackMode.UntilDone)
     Coins.vy = -10
+    music.play(music.createSoundEffect(WaveShape.Square, 400, 600, 255, 0, 100, SoundExpressionEffect.None, InterpolationCurve.Linear), music.PlaybackMode.UntilDone)
     info.changeScoreBy(1)
-    pause(500)
     sprites.destroy(otherSprite)
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSprite) {
@@ -390,7 +390,13 @@ let Hero: Sprite = null
 let Coins: Sprite = null
 let Guard: Sprite = null
 tiles.setCurrentTilemap(tilemap`level2`)
+let number_of_jumps = 0
 info.setScore(0)
 SpawnPlayer()
 Coin()
 SpawnEnemy()
+game.onUpdate(function () {
+    if (Hero.vy == 1) {
+        number_of_jumps = 0
+    }
+})
