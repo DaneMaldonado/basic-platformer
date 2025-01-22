@@ -26,6 +26,9 @@ function SpawnEnemy () {
             ........................
             ........................
             `, SpriteKind.Enemy)
+        Guard.setVelocity(-10, 0)
+        Guard.ay = 160
+        Guard.setBounceOnWall(true)
         tiles.placeOnTile(Guard, value)
         tiles.setTileAt(value, assets.tile`transparency16`)
         animation.runImageAnimation(
@@ -233,6 +236,9 @@ controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
     true
     )
 })
+scene.onOverlapTile(SpriteKind.Enemy, assets.tile`myTile`, function (sprite, location) {
+    sprites.destroy(sprite)
+})
 controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
     animation.runImageAnimation(
     Hero,
@@ -381,6 +387,13 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Food, function (sprite, otherSpr
     Coins.vy = -10
     music.play(music.createSoundEffect(WaveShape.Square, 400, 600, 255, 0, 100, SoundExpressionEffect.None, InterpolationCurve.Linear), music.PlaybackMode.UntilDone)
     info.changeScoreBy(1)
+    animation.runMovementAnimation(
+    otherSprite,
+    animation.animationPresets(animation.easeUp),
+    1000,
+    false
+    )
+    pause(300)
     sprites.destroy(otherSprite)
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSprite) {
@@ -396,7 +409,7 @@ SpawnPlayer()
 Coin()
 SpawnEnemy()
 game.onUpdate(function () {
-    if (Hero.vy == 1) {
+    if (Hero.vy == 0) {
         number_of_jumps = 0
     }
 })
