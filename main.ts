@@ -140,7 +140,7 @@ function SpawnEnemy () {
         1000,
         true
         )
-        Guard.scale = 1.2
+        Guard.scale = 1.15
     }
 }
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile`, function (sprite, location) {
@@ -403,10 +403,13 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Food, function (sprite, otherSpr
     sprites.destroy(otherSprite)
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSprite) {
-    if (sprite.y >= otherSprite.y) {
+    if (sprite.y < otherSprite.y) {
+        sprites.destroy(otherSprite)
         info.changeLifeBy(-1)
         tiles.placeOnTile(sprite, tiles.getTileLocation(1, 5))
-    } else if (sprite.y < otherSprite.y) {
+    } else if (false) {
+    	
+    } else {
         otherSprite.setKind(SpriteKind.DeadEnemy)
         animation.runImageAnimation(
         otherSprite,
