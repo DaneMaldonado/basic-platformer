@@ -144,7 +144,7 @@ scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile`, function (sprite, lo
     game.gameOver(false)
 })
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
-    if (Hero.vy == 0) {
+    if (Hero.vy == 0 || number_of_jumps == 1) {
         Hero.setVelocity(0, -130)
         number_of_jumps += 1
     }
@@ -402,8 +402,9 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSp
 let Hero: Sprite = null
 let Coins: Sprite = null
 let Guard: Sprite = null
-tiles.setCurrentTilemap(tilemap`level2`)
 let number_of_jumps = 0
+tiles.setCurrentTilemap(tilemap`level2`)
+number_of_jumps = 0
 info.setScore(0)
 SpawnPlayer()
 Coin()
