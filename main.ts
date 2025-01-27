@@ -404,12 +404,32 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Food, function (sprite, otherSpr
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSprite) {
     if (sprite.y < otherSprite.y) {
+        Shell = sprites.create(img`
+            . . . . . . . . b . . . . . . . 
+            . . . . . . b d d c . . . . . . 
+            . . . . . b 1 1 d d c . . . . . 
+            . . . . b 1 1 1 d 1 1 b . . . . 
+            . . . . c 1 1 1 d 1 1 1 c c . . 
+            b b b c d 1 1 c c 1 1 d 1 1 b b 
+            b d 1 1 d d b c c c b d 1 1 1 b 
+            b 1 1 1 1 c c . . c d d 1 1 1 b 
+            b 1 1 1 1 c c . . b 1 1 d d c . 
+            . b 1 1 d d b c b b 1 1 b c c . 
+            . . c b d d b 1 1 b b d b c . . 
+            . . c 1 1 d d 1 1 1 d d d b . . 
+            . b d 1 1 1 d 1 1 d 1 1 1 d b . 
+            . b d 1 1 1 d b b d 1 1 1 1 b . 
+            . . b 1 1 d c c b b d 1 1 d b . 
+            . . b b b b . . . b b b b b b . 
+            `, SpriteKind.Player)
+        tiles.placeOnTile(Shell, tiles.getTileLocation(0, 2))
         sprites.destroy(otherSprite)
     } else {
         info.changeLifeBy(-1)
         tiles.placeOnTile(sprite, tiles.getTileLocation(1, 5))
     }
 })
+let Shell: Sprite = null
 let Coins: Sprite = null
 let Hero: Sprite = null
 let Guard: Sprite = null
